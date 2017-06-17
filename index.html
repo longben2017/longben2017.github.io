@@ -245,73 +245,11 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-linux常用命令与操作" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/06/17/linux常用命令与操作/" class="article-date">
-      <time datetime="2017-06-17T15:06:38.093Z" itemprop="datePublished">2017-06-17</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/06/17/linux常用命令与操作/">linux常用命令与操作</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>初用linux的人可能深有体会，linux的命令实在是太多了，要记的话肯定是记不全的。所以，只能从实际操作中去练习了，下面就给大家介绍一下工作中经常会用到的一些操作。</p>
-<p>##一、常用命令<br>ls　　        显示文件或目录<br>&emsp;-l           列出文件详细信息l(list)<br>&emsp;-a          列出当前目录下所有文件及目录，包括隐藏的a(all)<br>mkdir         创建目录<br>&emsp;-p           创建目录，若无父目录，则创建p(parent)<br>cd               切换目录<br>touch          创建空文件<br>echo            创建带有内容的文件。<br>cat              查看文件内容<br>cp                拷贝<br>mv               移动或重命名<br>rm               删除文件<br>&emsp;-r            递归删除，可删除子目录及文件<br>&emsp;-f            强制删除<br>find              在文件系统中搜索某文件<br>wc                统计文本中行数、字数、字符数<br>grep             在文本文件中查找某个字符串<br>rmdir           删除空目录<br>tree             树形结构显示目录，需要安装tree包<br>pwd              显示当前目录<br>ln                  创建链接文件<br>more、less  分页显示文本文件内容<br>head、tail    显示文件头、尾内容</p>
-<p>##二、常用操作</p>
-<p>###1.查找文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ find ./ -name xxx</div></pre></td></tr></table></figure></p>
-<p>“./“表示查找的路径(此处为当前文件夹)，-name后面接文件名，注意此查询为准确查询，也就是说有一个字符不匹配都会造成查找失败，find命令无需加上-r去遍历子文件</p>
-<p>###2.查找字符串<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ grep -r <span class="string">"xxx"</span> ./</div></pre></td></tr></table></figure></p>
-<p>此命令是查询文件中是否存在”xxx”字符串，是模糊匹配。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
     <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2017/06/17/hello-world/" class="article-date">
-      <time datetime="2017-06-17T07:44:41.588Z" itemprop="datePublished">2017-06-17</time>
+      <time datetime="2017-06-17T15:39:39.458Z" itemprop="datePublished">2017-06-17</time>
 </a>
 
 
@@ -336,16 +274,8 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
+              <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
+          
       
     </div>
     
@@ -354,6 +284,70 @@
       
 
       
+      
+        <p class="article-more-link">
+          <a href="/2017/06/17/hello-world/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-linux常用命令与操作" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/06/17/linux常用命令与操作/" class="article-date">
+      <time datetime="2017-06-17T15:38:20.690Z" itemprop="datePublished">2017-06-17</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/17/linux常用命令与操作/">linux常用命令与操作</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p>初用linux的人可能深有体会，linux的命令实在是太多了，要记的话肯定是记不全的。所以，只能从实际操作中去练习了，下面就给大家介绍一下工作中经常会用到的一些操作。</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+        <p class="article-more-link">
+          <a href="/2017/06/17/linux常用命令与操作/#more">阅读全文 >></a>
+        </p>
       
       <div class="clearfix"></div>
     </div>
@@ -378,7 +372,7 @@
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2016-2017 Jerry Lung
+                2017 Jerry Lung
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
