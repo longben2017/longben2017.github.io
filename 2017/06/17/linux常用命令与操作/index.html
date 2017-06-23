@@ -21,7 +21,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/06/17/linux常用命令与操作/index.html">
 <meta property="og:site_name" content="JerryLung&#39;s Blog">
 <meta property="og:description" content="初用linux的人可能深有体会，linux的命令实在是太多了，要记的话肯定是记不全的。所以，只能从实际操作中去练习了，下面就给大家介绍一下工作中经常会用到的一些操作。">
-<meta property="og:updated_time" content="2017-06-17T16:04:17.211Z">
+<meta property="og:updated_time" content="2017-06-23T13:20:12.267Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="linux常用命令与操作">
 <meta name="twitter:description" content="初用linux的人可能深有体会，linux的命令实在是太多了，要记的话肯定是记不全的。所以，只能从实际操作中去练习了，下面就给大家介绍一下工作中经常会用到的一些操作。">
@@ -285,6 +285,23 @@
 <p>“./“表示查找的路径(此处为当前文件夹)，-name后面接文件名，注意此查询为准确查询，也就是说有一个字符不匹配都会造成查找失败，find命令无需加上-r去遍历子文件</p>
 <h3 id="2-查找字符串"><a href="#2-查找字符串" class="headerlink" title="2.查找字符串"></a>2.查找字符串</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ grep -r <span class="string">"xxx"</span> ./</div></pre></td></tr></table></figure>
 <p>此命令是查询文件中是否存在”xxx”字符串，是模糊匹配。</p>
+<h3 id="3-zip压缩包中删除文件"><a href="#3-zip压缩包中删除文件" class="headerlink" title="3.zip压缩包中删除文件"></a>3.zip压缩包中删除文件</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ zip -d myfile.zip 1.txt</div></pre></td></tr></table></figure>
+<p>表示把1.txt文件从myfile.zip压缩文件中删除</p>
+<h3 id="4-zip压缩包中添加文件"><a href="#4-zip压缩包中添加文件" class="headerlink" title="4.zip压缩包中添加文件"></a>4.zip压缩包中添加文件</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ zip -m myfile.zip 1.txt</div></pre></td></tr></table></figure>
+<p>表示把1.txt文件添加到myfile.zip压缩文件</p>
+<h3 id="5-批量修改文件内容"><a href="#5-批量修改文件内容" class="headerlink" title="5.批量修改文件内容"></a>5.批量修改文件内容</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sed -i <span class="string">"s/aaa/bbb/g"</span> ccc.sh</div></pre></td></tr></table></figure>
+<p>表示把ccc.sh文件里的所有aaa字符串修改为bbb字符串</p>
+<h3 id="6-删除文件指定行"><a href="#6-删除文件指定行" class="headerlink" title="6.删除文件指定行"></a>6.删除文件指定行</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sed -20d ccc.sh</div></pre></td></tr></table></figure>
+<p>表示把ccc.sh文件的20行删除</p>
+<h3 id="7-vi打开文本后搜索后文本会高亮显示，取消高亮"><a href="#7-vi打开文本后搜索后文本会高亮显示，取消高亮" class="headerlink" title="7.vi打开文本后搜索后文本会高亮显示，取消高亮"></a>7.vi打开文本后搜索后文本会高亮显示，取消高亮</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ nohl</div></pre></td></tr></table></figure>
+<p>取消高亮的命令，意为no high light</p>
+<h3 id="8-批量修改文件后缀"><a href="#8-批量修改文件后缀" class="headerlink" title="8.批量修改文件后缀"></a>8.批量修改文件后缀</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ rename .c .h *.c ./</div></pre></td></tr></table></figure>
+<p>表示把当前文件夹所有.c后缀的文件修改为.h后缀，此处第一个.c表示需要修改的字段，.h表示修改后的字段，*.c表示目标文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ rename .a <span class="string">''</span> *.a</div></pre></td></tr></table></figure></p>
+<p>此命令表示删除所有.a的后缀</p>
+<h3 id="9-批量添加文件后缀名"><a href="#9-批量添加文件后缀名" class="headerlink" title="9.批量添加文件后缀名"></a>9.批量添加文件后缀名</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ls |xargs -i mv &#123;&#125; &#123;&#125;.txt</div></pre></td></tr></table></figure>
+<p>表示把当前所有文件增加.txt后缀</p>
+<h3 id="10-把文件内容置空"><a href="#10-把文件内容置空" class="headerlink" title="10.把文件内容置空"></a>10.把文件内容置空</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ &gt; test.txt</div></pre></td></tr></table></figure>
+<p>表示把test.txt的内容置空</p>
 
       
     </div>
@@ -296,7 +313,7 @@
         <p><span>本文标题:</span><a href="/2017/06/17/linux常用命令与操作/">linux常用命令与操作</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">Jerry Lung</a></p>
         <p><span>发布时间:</span>2017-06-17, 12:00:00</p>
-        <p><span>最后更新:</span>2017-06-18, 00:04:17</p>
+        <p><span>最后更新:</span>2017-06-23, 21:20:12</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/06/17/linux常用命令与操作/" title="linux常用命令与操作">http://yoursite.com/2017/06/17/linux常用命令与操作/</a>
             <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2017/06/17/linux常用命令与操作/　　作者: Jerry Lung" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -326,7 +343,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、常用命令"><span class="toc-number">1.</span> <span class="toc-text">一、常用命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、常用操作"><span class="toc-number">2.</span> <span class="toc-text">二、常用操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-查找文件"><span class="toc-number">2.1.</span> <span class="toc-text">1.查找文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-查找字符串"><span class="toc-number">2.2.</span> <span class="toc-text">2.查找字符串</span></a></li></ol></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、常用命令"><span class="toc-number">1.</span> <span class="toc-text">一、常用命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、常用操作"><span class="toc-number">2.</span> <span class="toc-text">二、常用操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-查找文件"><span class="toc-number">2.1.</span> <span class="toc-text">1.查找文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-查找字符串"><span class="toc-number">2.2.</span> <span class="toc-text">2.查找字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-zip压缩包中删除文件"><span class="toc-number">2.3.</span> <span class="toc-text">3.zip压缩包中删除文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-zip压缩包中添加文件"><span class="toc-number">2.4.</span> <span class="toc-text">4.zip压缩包中添加文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-批量修改文件内容"><span class="toc-number">2.5.</span> <span class="toc-text">5.批量修改文件内容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-删除文件指定行"><span class="toc-number">2.6.</span> <span class="toc-text">6.删除文件指定行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-vi打开文本后搜索后文本会高亮显示，取消高亮"><span class="toc-number">2.7.</span> <span class="toc-text">7.vi打开文本后搜索后文本会高亮显示，取消高亮</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-批量修改文件后缀"><span class="toc-number">2.8.</span> <span class="toc-text">8.批量修改文件后缀</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-批量添加文件后缀名"><span class="toc-number">2.9.</span> <span class="toc-text">9.批量添加文件后缀名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-把文件内容置空"><span class="toc-number">2.10.</span> <span class="toc-text">10.把文件内容置空</span></a></li></ol></li></ol>
         
     </div>
     <style>
