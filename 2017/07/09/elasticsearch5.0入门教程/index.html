@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html >
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Jerry Lung" />
+
+
+
+<meta name="description" content="本文主要介绍elasticsearch的一些基础概念以及一些简单的用法。">
+<meta name="keywords" content="elasticsearch,java,retrofit2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="elasticsearch5.0入门教程">
+<meta property="og:url" content="http://longben2017.github.io/2017/07/09/elasticsearch5.0入门教程/index.html">
+<meta property="og:site_name" content="JerryLung&#39;s Blog">
+<meta property="og:description" content="本文主要介绍elasticsearch的一些基础概念以及一些简单的用法。">
+<meta property="og:image" content="https://raw.githubusercontent.com/longben2017/image/master/elasticsearchSharingDoc/elasticsearchLogo.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/longben2017/image/master/elasticsearchSharingDoc/elasticsearch%26db.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/longben2017/image/master/elasticsearchSharingDoc/9200page.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/longben2017/image/master/elasticsearchSharingDoc/curlHealth.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/longben2017/image/master/elasticsearchSharingDoc/curlIndices.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/longben2017/image/master/elasticsearchSharingDoc/createIndex.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/longben2017/image/master/elasticsearchSharingDoc/createDoc.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/longben2017/image/master/elasticsearchSharingDoc/curlIndeces2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/longben2017/image/master/elasticsearchSharingDoc/curlSearch.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/longben2017/image/master/elasticsearchSharingDoc/javaApiSearch.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/longben2017/image/master/elasticsearchSharingDoc/retrofitSearch.png">
+<meta property="og:updated_time" content="2017-07-13T15:55:06.110Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="elasticsearch5.0入门教程">
+<meta name="twitter:description" content="本文主要介绍elasticsearch的一些基础概念以及一些简单的用法。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/longben2017/image/master/elasticsearchSharingDoc/elasticsearchLogo.png">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="JerryLung&#39;s Blog" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>elasticsearch5.0入门教程 | JerryLung&#39;s Blog</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: undefined
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Jerry Lung</a></h1>
+        </hgroup>
+
+        
+
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=m6_soq6rqqmtq9vq6rX49PY" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/longben2017" title="GitHub"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsearch/">elasticsearch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/retrofit2/">retrofit2</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Jerry Lung</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Jerry Lung</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=m6_soq6rqqmtq9vq6rX49PY" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/longben2017" title="GitHub"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-elasticsearch5.0入门教程" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/07/09/elasticsearch5.0入门教程/" class="article-date">
+      <time datetime="2017-07-09T03:12:30.000Z" itemprop="datePublished">2017-07-09</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      elasticsearch5.0入门教程
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/技术分享/">技术分享</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/elasticsearch/">elasticsearch</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/retrofit2/">retrofit2</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>本文主要介绍elasticsearch的一些基础概念以及一些简单的用法。</p>
+<p><img src="https://raw.githubusercontent.com/longben2017/image/master/elasticsearchSharingDoc/elasticsearchLogo.png" alt=""><br><a id="more"></a></p>
+<h2 id="一、Elasticsearch是什么？"><a href="#一、Elasticsearch是什么？" class="headerlink" title="一、Elasticsearch是什么？"></a>一、Elasticsearch是什么？</h2><h3 id="Elasticsearch简介"><a href="#Elasticsearch简介" class="headerlink" title="Elasticsearch简介"></a>Elasticsearch简介</h3><p>&emsp;&emsp;<font color="red">es是一个实时分布式搜索和分析引擎。</font>基于Apache Lucene(TM)的开源搜索引擎。无论在开源还是专有领域，Lucene可以被认为是迄今为止最先进、性能最好的、功能最全的搜索引擎库。<br>&emsp;&emsp;但Lucene非常复杂，需要深入了解检索的相关知识来理解它是如何工作的。<br>&emsp;&emsp;而es就是使用Lucene作为其核心来实现所有索引和搜索的功能，但是它的目的是<font color="red">通过简单的RESTful API来隐藏Lucene的复杂性，从而让全文搜索变得简单。</font></p>
+<p>&emsp;&emsp;实际案例:</p>
+<ul>
+<li>维基百科使用es提供全文搜索并高亮关键字，以及输入实时搜索(search-as-you-type)和搜索纠错(did-you-mean)等搜索建议功能。</li>
+<li>英国卫报使用es将访问者日志与社会网络数据相结合，向公众提供有关公众对新文章的回应的实时反馈。</li>
+<li>StackOverflow将全文搜索与地理位置查询相结合，以及more-like-this功能这种来查找相关的问题和答案。</li>
+<li>Github使用Elasticsearch检索1300亿行的代码。</li>
+</ul>
+<h3 id="Elasticsearch特性"><a href="#Elasticsearch特性" class="headerlink" title="Elasticsearch特性"></a>Elasticsearch特性</h3><p>&emsp;&emsp;a)分布式的实时文件存储，每个字段都被索引并可被搜索；<br>&emsp;&emsp;b)分布式的实时分析搜索引擎；<br>&emsp;&emsp;c)可以拓展到上百台服务器，处理PB级结构化或非结构化数据。</p>
+<h3 id="Elasticsearch基本概念"><a href="#Elasticsearch基本概念" class="headerlink" title="Elasticsearch基本概念"></a>Elasticsearch基本概念</h3><p>&emsp;&emsp;<strong>集群(cluster)</strong><br>一个集群就是由一个或多个节点组织在一起，它们共同持有你整个的数据，并一起提供索引和搜索功能。一个集群由一个唯一的名字标识。<br>&emsp;&emsp;<strong>节点(node)</strong><br>一个节点是你集群中的一个服务器，作为集群的一部分，它存储你的数据，参与集群的索引和搜索功能。一个节点也是由一个名字来标识的。一个节点可以通过配置集群名称的方式来加入一个指定的集群。<br>&emsp;&emsp;<strong>索引(index)</strong><br>索引是一类文档的集合，所有的操作比如索引(索引数据)、搜索、分析都是基于索引完成的。在一个集群中，可以定义任意数量的索引。<br>&emsp;&emsp;<strong>类型(type)</strong><br>在一个索引中，你可以定义一种或多种类型。类型可以理解成一个索引的逻辑分区，用于标识不同的文档字段信息的集合。<br>&emsp;&emsp;<strong>文档(document)</strong><br>文档是存储数据信息的基本单元，使用json来表示。<br>&emsp;&emsp;<strong>分片和复制(shards &amp; replicas)</strong><br>一个索引可以存储超出单个节点硬件限制的大量数据。比如，一个具有10亿文档的索引占据1TB的磁盘空间，而任一节点都没有这样大的磁盘空间；或者单个节点处理搜索请求，响应太慢。为了解决这个问题，Elasticsearch提供了将索引划分成多份的能力，这些份就叫做分片。</p>
+<p>分片的好处：</p>
+<ul>
+<li>如果一个索引数据量很大，会造成硬件硬盘和搜索速度的瓶颈。如果分成多个分片，分片可以分摊压力;</li>
+<li>分片允许用户进行水平的扩展和拆分;</li>
+<li>分片允许分布式的操作，可以提高搜索以及其他操作的效率;</li>
+</ul>
+<p>拷贝一份分片就完成了分片的备份，那么备份有什么好处呢？</p>
+<ul>
+<li>当一个分片失败或者下线时，备份的分片可以代替工作，提高了高可用性。</li>
+<li>备份的分片也可以执行搜索操作，分摊了搜索的压力。</li>
+</ul>
+<blockquote>
+<p>最后附上elasticsearch与传统关系型数据库的对比图</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/longben2017/image/master/elasticsearchSharingDoc/elasticsearch%26db.png" alt=""></p>
+<h2 id="二、Elasticsearch怎么用？"><a href="#二、Elasticsearch怎么用？" class="headerlink" title="二、Elasticsearch怎么用？"></a>二、Elasticsearch怎么用？</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>&emsp;&emsp;确保java版本至少为1.8<br>&emsp;&emsp;1)下载<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.0.2.tar.gz</div></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;2)解压<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tar -xvf elasticsearch-5.0.2.tar.gz</div></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;3)使用root用户修改系统配置<br>&emsp;&emsp;&emsp;&emsp;a)修改/etc/sysctl.conf文件并执行sysctl -p使其生效<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">echo</span> <span class="string">"vm.max_map_count= 262144"</span> &gt;&gt; /etc/sysctl.conf</div><div class="line">sysctl -p</div></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;&emsp;&emsp;b)修改/etc/security/limits.conf文件，添加以下内容并重新登录用户使其生效<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">*               soft    nproc           65536</div><div class="line">*               hard    nproc           65536</div><div class="line">*               soft    nofile          65536</div><div class="line">*               hard    nofile          65536</div></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;4)进入bin目录并运行elasticsearch<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> elasticsearch-5.0.2/bin</div><div class="line">./elasticsearch</div></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;若启动成功，你应该能在控制台看到类似以下的信息：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">[2016-09-16T14:17:51,251][INFO ][o.e.n.Node               ] [] initializing ...</div><div class="line">[2016-09-16T14:17:51,329][INFO ][o.e.e.NodeEnvironment    ] [6-bjhwl] using [1] data paths, mounts [[/ (/dev/sda1)]], net usable_space [317.7gb], net total_space [453.6gb], spins? [no], types [ext4]</div><div class="line">[2016-09-16T14:17:51,330][INFO ][o.e.e.NodeEnvironment    ] [6-bjhwl] heap size [1.9gb], compressed ordinary object pointers [<span class="literal">true</span>]</div><div class="line">[2016-09-16T14:17:51,333][INFO ][o.e.n.Node               ] [6-bjhwl] node name [6-bjhwl] derived from node ID; <span class="built_in">set</span> [node.name] to override</div><div class="line">[2016-09-16T14:17:51,334][INFO ][o.e.n.Node               ] [6-bjhwl] version[5.0.2], pid[21261], build[f5daa16/2016-09-16T09:12:24.346Z], OS[Linux/4.4.0-36-generic/amd64], JVM[Oracle Corporation/Java HotSpot(TM) 64-Bit Server VM/1.8.0_60/25.60-b23]</div><div class="line">[2016-09-16T14:17:51,967][INFO ][o.e.p.PluginsService     ] [6-bjhwl] loaded module [aggs-matrix-stats]</div><div class="line">[2016-09-16T14:17:51,967][INFO ][o.e.p.PluginsService     ] [6-bjhwl] loaded module [ingest-common]</div><div class="line">[2016-09-16T14:17:51,967][INFO ][o.e.p.PluginsService     ] [6-bjhwl] loaded module [lang-expression]</div><div class="line">[2016-09-16T14:17:51,967][INFO ][o.e.p.PluginsService     ] [6-bjhwl] loaded module [lang-groovy]</div><div class="line">[2016-09-16T14:17:51,967][INFO ][o.e.p.PluginsService     ] [6-bjhwl] loaded module [lang-mustache]</div><div class="line">[2016-09-16T14:17:51,967][INFO ][o.e.p.PluginsService     ] [6-bjhwl] loaded module [lang-painless]</div><div class="line">[2016-09-16T14:17:51,967][INFO ][o.e.p.PluginsService     ] [6-bjhwl] loaded module [percolator]</div><div class="line">[2016-09-16T14:17:51,968][INFO ][o.e.p.PluginsService     ] [6-bjhwl] loaded module [reindex]</div><div class="line">[2016-09-16T14:17:51,968][INFO ][o.e.p.PluginsService     ] [6-bjhwl] loaded module [transport-netty3]</div><div class="line">[2016-09-16T14:17:51,968][INFO ][o.e.p.PluginsService     ] [6-bjhwl] loaded module [transport-netty4]</div><div class="line">[2016-09-16T14:17:51,968][INFO ][o.e.p.PluginsService     ] [6-bjhwl] loaded plugin [mapper-murmur3]</div><div class="line">[2016-09-16T14:17:53,521][INFO ][o.e.n.Node               ] [6-bjhwl] initialized</div><div class="line">[2016-09-16T14:17:53,521][INFO ][o.e.n.Node               ] [6-bjhwl] starting ...</div><div class="line">[2016-09-16T14:17:53,671][INFO ][o.e.t.TransportService   ] [6-bjhwl] publish_address &#123;192.168.8.112:9300&#125;, bound_addresses &#123;&#123;192.168.8.112:9300&#125;</div><div class="line">[2016-09-16T14:17:53,676][WARN ][o.e.b.BootstrapCheck     ] [6-bjhwl] max virtual memory areas vm.max_map_count [65530] likely too low, increase to at least [262144]</div><div class="line">[2016-09-16T14:17:56,731][INFO ][o.e.h.HttpServer         ] [6-bjhwl] publish_address &#123;192.168.8.112:9200&#125;, bound_addresses &#123;[::1]:9200&#125;, &#123;192.168.8.112:9200&#125;</div><div class="line">[2016-09-16T14:17:56,732][INFO ][o.e.g.GatewayService     ] [6-bjhwl] recovered [0] indices into cluster_state</div><div class="line">[2016-09-16T14:17:56,748][INFO ][o.e.n.Node               ] [6-bjhwl] started</div></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;此时，打开浏览器，并访问127.0.0.1:9200,可看到如下图所示：<br><img src="https://raw.githubusercontent.com/longben2017/image/master/elasticsearchSharingDoc/9200page.png" alt=""></p>
+<p>&emsp;&emsp;默认情况下，只有本机地址能访问到elasticsearch，若需要其他机器也能访问此elasticsearch，需要修改一些elasticsearch的配置文件。<br>&emsp;&emsp;&emsp;&emsp;a)打开elasticsearch配置文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vi elasticsearch-5.0.2/config/elasticsearch.yml</div></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;&emsp;&emsp;b)把network.host修改为广播地址0.0.0.0(注意冒号后面有空格)<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">network.host: 0.0.0.0</div></pre></td></tr></table></figure></p>
+<h3 id="探索集群"><a href="#探索集群" class="headerlink" title="探索集群"></a>探索集群</h3><p>&emsp;&emsp;1)查看集群健康<br>&emsp;&emsp;以基本的健康检查作为开始，我们可以利用它来查看我们集群的状态。此过程中，我们使用curl。要检查集群健康，我们将使用_cat API。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl <span class="string">'localhost:9200/_cluster/health?pretty'</span></div></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;相应的响应是:<br><img src="https://raw.githubusercontent.com/longben2017/image/master/elasticsearchSharingDoc/curlHealth.png" alt=""><br>&emsp;&emsp;可以看到，我们集群的名字是“elasticsearch”，正常运行，并且状态是黄色。<br>&emsp;&emsp;当我们询问集群状态的时候，我们要么得到绿色、黄色或红色。绿色代表一切正常（集群功能齐全），黄色意味着所有的数据都是可用的，但是某些复制没有被分配（集群功能齐全），红色则代表因为某些原因，某些数据不可用。注意，即使是集群状态是红色的，集群仍然是部分可用的（它仍然会利用可用的分片来响应搜索请求），但是可能你需要尽快修复它，因为你有丢失的数据。</p>
+<p>&emsp;&emsp;2)列出所有的索引<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl <span class="string">'localhost:9200/_cat/indices?v'</span></div></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;相应的响应是:<br><img src="https://raw.githubusercontent.com/longben2017/image/master/elasticsearchSharingDoc/curlIndices.png" alt=""><br>&emsp;&emsp;这个结果意味着，在我们的集群中，我们目前没有任何索引。</p>
+<p>&emsp;&emsp;3)创建一个索引<br>现在让我们创建一个叫做“customer”的索引，然后再列出所有的索引：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">curl -XPUT <span class="string">'localhost:9200/customer?pretty'</span></div><div class="line">curl <span class="string">'localhost:9200/_cat/indices?v'</span></div></pre></td></tr></table></figure></p>
+<p>第一个命令使用PUT创建了一个叫做“customer”的索引。我们简单地将pretty附加到调用的尾部，使其以美观的形式打印出JSON响应（如果有的话）。<br>&emsp;&emsp;响应如下:<br><img src="https://raw.githubusercontent.com/longben2017/image/master/elasticsearchSharingDoc/createIndex.png" alt=""><br>第二个命令的结果告知我们，我们现在有一个叫做customer的索引，并且它有5个主分片和1份复制（都是默认值），其中包含0个文档。</p>
+<p>&emsp;&emsp;4)索引并查询一个文档<br>现在让我们放一些东西到customer索引中。首先要知道的是，为了索引一个文档，我们必须告诉Elasticsearch这个文档要到这个索引的哪个类型（type）下。<br>&emsp;&emsp;让我们将一个简单的客户文档索引到customer索引、“external”类型中，这个文档的ID是1，操作如下:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">curl -XPUT <span class="string">'localhost:9200/customer/external/1?pretty'</span> -d <span class="string">'</span></div><div class="line">        &#123;</div><div class="line">          "name": "John Doe"</div><div class="line">        &#125;'</div></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;响应如下:<br><img src="https://raw.githubusercontent.com/longben2017/image/master/elasticsearchSharingDoc/createDoc.png" alt=""><br>从上面的响应中，我们可以看到，一个新的客户文档在customer索引和external类型中被成功创建。文档也有一个内部id 1， 这个id是我们在索引的时候指定的。</p>
+<p>&emsp;&emsp;有一个关键点需要注意，Elasticsearch在你想将文档索引到某个索引的时候，并<font color="red">不强制要求这个索引被显式地创建</font>。在前面这个例子中，如果customer索引不存在，Elasticsearch将会自动地创建这个索引。</p>
+<p>&emsp;&emsp;5)更新文档</p>
+<p>&emsp;&emsp;6)删除文档</p>
+<p>&emsp;&emsp;7)批处理<br>&emsp;&emsp;除了能够对单个的文档进行索引、更新和删除之外，Elasticsearch也提供了以上操作的批量处理功能，这是通过使用_bulk API实现的。这个功能之所以重要，在于它提供了非常高效的机制来尽可能快的完成多个操作，与此同时使用尽可能少的网络往返。</p>
+<p>作为一个快速的例子，以下调用在一次bulk操作中索引了两个文档（ID 1 - John Doe and ID 2 - Jane Doe）:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">curl -XPOST <span class="string">'localhost:9200/customer/external/_bulk?pretty'</span> -d <span class="string">'</span></div><div class="line">&#123;"index":&#123;"_id":"1"&#125;&#125;</div><div class="line">&#123;"name": "John Doe" &#125;</div><div class="line">&#123;"index":&#123;"_id":"2"&#125;&#125;</div><div class="line">&#123;"name": "Jane Doe" &#125;</div><div class="line">'</div></pre></td></tr></table></figure></p>
+<p>以下例子在一个bulk操作中，首先更新第一个文档（ID为1），然后删除第二个文档（ID为2）：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">curl -XPOST <span class="string">'localhost:9200/customer/external/_bulk?pretty'</span> -d <span class="string">'</span></div><div class="line">&#123;"update":&#123;"_id":"1"&#125;&#125;</div><div class="line">&#123;"doc": &#123; "name": "John Doe becomes Jane Doe" &#125; &#125;</div><div class="line">&#123;"delete":&#123;"_id":"2"&#125;&#125;</div><div class="line">'</div></pre></td></tr></table></figure></p>
+<p>注意上面的delete动作，由于删除动作只需要被删除文档的ID，所以并没有对应的源文档。</p>
+<h3 id="探索数据"><a href="#探索数据" class="headerlink" title="探索数据"></a>探索数据</h3><p>载入样本数据(<a href="https://github.com/bly2k/files/blob/master/accounts.zip?raw=tr" target="_blank" rel="external">点击下载样本数据</a>)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">curl -XPOST <span class="string">'localhost:9200/bank/account/_bulk?pretty'</span> --data-binary @accounts.json</div><div class="line">curl <span class="string">'localhost:9200/_cat/indices?v'</span></div></pre></td></tr></table></figure>
+<p>&emsp;&emsp;响应:<br><img src="https://raw.githubusercontent.com/longben2017/image/master/elasticsearchSharingDoc/curlIndeces2.png" alt=""><br>这意味着我们成功批量索引了1000个文档到银行索引中（account类型）。</p>
+<p>&emsp;&emsp;现在，让我们以一些简单的搜索来开始。有两种基本的方式来运行搜索：一种是在REST请求的URI中发送搜索参数，另一种是将搜索参数发送到REST请求体中。<br>&emsp;&emsp;一般情况下，执行一些比较简单的命令时会使用第一种方法，而当执行一些比较复杂的命令时(如过滤，排序，聚合等)使用第二种方法。</p>
+<p>&emsp;&emsp;最简单的查询<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl <span class="string">'localhost:9200/_search?pretty'</span></div></pre></td></tr></table></figure></p>
+<p> <img src="https://raw.githubusercontent.com/longben2017/image/master/elasticsearchSharingDoc/curlSearch.png" alt=""><br> 对于这个响应，我们看到了以下的部分：</p>
+<ul>
+<li>took —— Elasticsearch执行这个搜索的耗时，以毫秒为单位</li>
+<li>timed_out —— 指明这个搜索是否超时</li>
+<li>_shards —— 指出多少个分片被搜索了，同时也指出了成功/失败的被搜索的shards的数量</li>
+<li>hits —— 搜索结果</li>
+<li>hits.total ——能够匹配我们查询标准的文档的总数目</li>
+<li>hits.hits —— 真正的搜索结果数据（默认只显示前10个文档）</li>
+<li>_score和max_score —— 得分</li>
+</ul>
+<p>具体的其他用法就暂不在此展开了，有兴趣的可以另行了解。</p>
+<h2 id="三、项目中如何使用elasticsearch"><a href="#三、项目中如何使用elasticsearch" class="headerlink" title="三、项目中如何使用elasticsearch"></a>三、项目中如何使用elasticsearch</h2><p>在实际项目中，一般不会直接在浏览器上敲一个命令去操作elasticsearch从而解决一些业务上的实际问题。所以，elasticsearch官方提供了多种类型的客户端(如Java,Python,.NET,Groovy等)，下面就介绍几种与java结合一起使用的方法。</p>
+<h3 id="Java-API"><a href="#Java-API" class="headerlink" title="Java API"></a>Java API</h3><p>elasticsearch也提供了java api去调用，这种方式是通过调用elasticsearch的client客户端从而去索引或者查询数据的。<br>&emsp;&emsp;1)先获取elasticsearch的client;<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">before</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</div><div class="line">    client = <span class="keyword">new</span> PreBuiltTransportClient(Settings.EMPTY)</div><div class="line">		.addTransportAddress(<span class="keyword">new</span> InetSocketTransportAddress(</div><div class="line">        InetAddress.getByName(<span class="string">"192.168.137.128"</span>),<span class="number">9300</span>));</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;2)获取到client后就可以根据elasticsearch给出的各种接口对其数据进行操作了;<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testGetDocs</span><span class="params">()</span></span>&#123;</div><div class="line">	GetResponse response = client.prepareGet(<span class="string">"bank"</span>,<span class="string">"account"</span>,<span class="string">"1"</span>).execute().actionGet();</div><div class="line">	System.out.println(response.getSourceAsString());</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;3)最后，可获取相应的返回数据。<br><img src="https://raw.githubusercontent.com/longben2017/image/master/elasticsearchSharingDoc/javaApiSearch.png" alt=""></p>
+<h3 id="Retrofit2"><a href="#Retrofit2" class="headerlink" title="Retrofit2"></a>Retrofit2</h3><p>Retrofit是square开源的网络请求库，底层是使用OKHttp封装的，网络请求速度很快。</p>
+<p>&emsp;&emsp;下面直接应用到实际的代码中<br>&emsp;&emsp;1)Retrofit通过接口来管理HTTP API，那么首先我们先定义一个API的接口：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">SearchApi</span> </span>&#123;</div><div class="line">	<span class="meta">@HEAD</span>(<span class="string">"/&#123;index&#125;"</span>)</div><div class="line">	<span class="function">Call&lt;Void&gt; <span class="title">getIndexExist</span><span class="params">(@Path(<span class="string">"index"</span>)</span>String indexName)</span>;</div><div class="line">	</div><div class="line">	<span class="meta">@GET</span>(<span class="string">"/&#123;index&#125;/_search"</span>)</div><div class="line">	<span class="function">Call&lt;AccountInfo&gt; <span class="title">getDocs</span><span class="params">(@Path(<span class="string">"index"</span>)</span>String indexName)</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;2)然后通过Retrofit.Builder获取到Retrofit实例，并通过create(clazz)方法获取到我们刚才创建的SearchApi接口实例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">before</span><span class="params">()</span></span>&#123;</div><div class="line">	Retrofit retrofit = <span class="keyword">new</span> Retrofit.Builder()</div><div class="line">	.baseUrl(<span class="string">"http://192.168.137.128:9200/"</span>)</div><div class="line">	.addConverterFactory(JacksonConverterFactory.create())</div><div class="line">	.build();</div><div class="line">	searchApi = retrofit.create(SearchApi.class);</div><div class="line">	gson = <span class="keyword">new</span> GsonBuilder().setPrettyPrinting().create();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;3)有了SearchApi实例之后，我们就可以在需要网络请求的地方调用了：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testGetDocs</span><span class="params">()</span></span>&#123;</div><div class="line">	<span class="keyword">try</span> &#123;</div><div class="line">		Response&lt;AccountInfo&gt; response = searchApi.getDocs(<span class="string">"bank"</span>).execute();</div><div class="line">		AccountInfo accountInfo = (AccountInfo)response.body();</div><div class="line">		System.out.println(gson.toJson(accountInfo));</div><div class="line">	&#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">		e.printStackTrace();</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;4)最后，就可以得到请求返回的信息了：<br><img src="https://raw.githubusercontent.com/longben2017/image/master/elasticsearchSharingDoc/retrofitSearch.png" alt=""></p>
+<p>这次的介绍就先到这里，下次会继续介绍关于elasticsearch的应用场景以及一些实战演练。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2017/07/09/elasticsearch5.0入门教程/">elasticsearch5.0入门教程</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Jerry Lung</a></p>
+        <p><span>发布时间:</span>2017-07-09, 11:12:30</p>
+        <p><span>最后更新:</span>2017-07-13, 23:55:06</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/07/09/elasticsearch5.0入门教程/" title="elasticsearch5.0入门教程">http://longben2017.github.io/2017/07/09/elasticsearch5.0入门教程/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://longben2017.github.io/2017/07/09/elasticsearch5.0入门教程/　　作者: Jerry Lung" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2017/06/17/linux常用命令与操作/">
+                    linux常用命令与操作
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、Elasticsearch是什么？"><span class="toc-number">1.</span> <span class="toc-text">一、Elasticsearch是什么？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Elasticsearch简介"><span class="toc-number">1.1.</span> <span class="toc-text">Elasticsearch简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Elasticsearch特性"><span class="toc-number">1.2.</span> <span class="toc-text">Elasticsearch特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Elasticsearch基本概念"><span class="toc-number">1.3.</span> <span class="toc-text">Elasticsearch基本概念</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、Elasticsearch怎么用？"><span class="toc-number">2.</span> <span class="toc-text">二、Elasticsearch怎么用？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装"><span class="toc-number">2.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#探索集群"><span class="toc-number">2.2.</span> <span class="toc-text">探索集群</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#探索数据"><span class="toc-number">2.3.</span> <span class="toc-text">探索数据</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、项目中如何使用elasticsearch"><span class="toc-number">3.</span> <span class="toc-text">三、项目中如何使用elasticsearch</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Java-API"><span class="toc-number">3.1.</span> <span class="toc-text">Java API</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Retrofit2"><span class="toc-number">3.2.</span> <span class="toc-text">Retrofit2</span></a></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"elasticsearch5.0入门教程　| JerryLung's Blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2017/06/17/linux常用命令与操作/" title="下一篇: linux常用命令与操作">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/07/09/elasticsearch5.0入门教程/">elasticsearch5.0入门教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/17/linux常用命令与操作/">linux常用命令与操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/15/hello-world/">Hello World</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2017 Jerry Lung
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 7;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
